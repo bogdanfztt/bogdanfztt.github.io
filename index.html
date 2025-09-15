@@ -1,1 +1,46 @@
-<a href="http://kubsu.ru/">КубГУ</a>
+<!DOCTYPE html>
+<html lang = "ru">
+    <head>
+        <meta charset = "utf-8">
+        <title>Web1</title>
+    </head>
+    <body>
+        <h1>Список гиперссылок</h1>
+        <ul>
+            <li><a href="http://kubsu.ru/">КубГУ</a></li>
+            <li><a href="https://kubsu.ru/">КубГУ</a></li>
+            <li><img src="image.jpg"></li>
+            <li><a href="/index2">сокр ссылка на внутр стр</a></li>
+            <li><a href="/">сокр ссылка на глав стр</a></li>
+            <li><a href = "#form-section">Ссылка на форму</a></li>
+            <li><a href = "https://www.kubsu.ru/ru/studlist" title = "Список зачисленных" rel = "nofollow">Абитуриенты</a></li>
+            <li><a href="https://www.kubsu.ru/ru/studlife" id="studlife">Studlife</a></li>
+            <li><a href="page.html">относительная ссылка в текущем каталоге</a></li>
+            <li><a href="about/index.html">Относительная ссылка в каталоге about</a></li>
+            <li><a href="../page.html">относительная ссылка на уровень выше</a></li>
+            <li><a href="../../page.html">относительная ссылка на 2 уровня выше</a></li>
+            <li><p>Это абзац с <a href="https://kubsu.ru">контекстной ссылкой</a> внутри текста</p></li>
+            <li><a href="https://ru.wikipedia.org/wiki/HTML#История">Ссылка на фрагмент википедиа об html</a></li>
+            <!-- 15) Ссылки из областей картинки (image map) -->
+            <li>
+            <img src="https://via.placeholder.com/300x100?text=Image+Map" alt="Image Map" usemap="#examplemap" width="300" height="100">
+                <map name="examplemap">
+                    <area shape="rect" coords="0,0,150,100" href="https://kubsu.ru/" alt="Прямоугольная область">
+                    <area shape="circle" coords="225,50,50" href="https://kubsu.ru/en/" alt="Круглая область">
+                </map>
+            </li>
+            <li><a href="">Ссылка с пустым href</a></li>
+            <li><a>Ссылка без href</a></li>
+            <li><a href="https://kubsu.ru/" rel="nofollow">Ссылка с rel="nofollow"</a></li>
+            <li><a href="https://kubsu.ru/" rel="noindex">Ссылка с rel="noindex"</a></li>
+            <li>
+                <ol>
+                    <li><a href="https://kubsu.ru/" title="Официальный сайт КубГУ">КубГУ</a></li>
+                    <li><a href="https://kubsu.ru/en/" title="English version">КубГУ (English)</a></li>
+                    <li><a href="https://edu.kubsu.ru/" title="Портал дистанционного обучения">Дистанционное обучение</a></li>
+                </ol>
+            </li>
+            <li><a href="ftp://user:password@ftp.example.com/file.txt">Ссылка на FTP с авторизацией</a></li>
+        </ul>
+    </body>
+</html>
