@@ -1,0 +1,125 @@
+/* Дополнительные стили для Bootstrap */
+:root {
+    --bs-body-bg: #f8f9fa;
+    --bs-border-radius: 0.75rem;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+/* Улучшенные карточки */
+.card {
+    border: none;
+    border-radius: var(--bs-border-radius);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+.card-header {
+    border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0 !important;
+    font-weight: 600;
+}
+
+/* Стили для таблицы */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+}
+
+/* Стили для ссылок в списках */
+.list-group-item a:hover {
+    color: var(--bs-primary) !important;
+    transform: translateX(5px);
+    transition: all 0.2s ease;
+}
+
+/* Анимации для иконок */
+.bi {
+    transition: transform 0.2s ease;
+}
+
+a:hover .bi {
+    transform: scale(1.1);
+}
+
+/* Стили для формы */
+.form-control, .form-select {
+    border-radius: 0.5rem;
+    border: 2px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+/* Адаптивные улучшения */
+@media (max-width: 768px) {
+    .display-5 {
+        font-size: 1.75rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    .row.g-3 {
+        --bs-gutter-x: 1rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+}
+
+/* Специальные стили для ссылок */
+a[href=""], a:not([href]) {
+    color: var(--bs-secondary) !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+a[rel="nofollow"], a[rel="noindex"] {
+    border-bottom: 1px dashed var(--bs-warning);
+}
+
+/* Стили для изображений в ссылках */
+.img-thumbnail {
+    padding: 0.25rem;
+    background-color: #fff;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.375rem;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Улучшения для подвала */
+footer {
+    margin-top: auto;
+}
