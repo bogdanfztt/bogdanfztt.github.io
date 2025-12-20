@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задание 5 - Калькулятор стоимости заказа</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding-top: 2rem;
+        }
+        
+        .calculator-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: none;
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            font-weight: 600;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-calculate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .result-container {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .product-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container calculator-container">
+        <div class="card">
+            <div class="card-header text-center py-3">
+                <h1 class="h3 mb-0">
+                    <i class="bi bi-calculator me-2"></i>Калькулятор стоимости заказа
+                </h1>
+            </div>
+            <div class="card-body p-4">
+                <!-- Форма калькулятора -->
+                <form id="calculatorForm">
+                    <!-- Выбор товара -->
+                    <div class="mb-4">
+                        <label for="productSelect" class="form-label fw-bold">
+                            <i class="bi bi-box-seam me-1"></i>Выберите товар
+                        </label>
+                        <select class="form-select form-select-lg" id="productSelect" required>
+                            <option value="" selected disabled>-- Выберите товар --</option>
+                            <option value="2999.99">Ноутбук - 2 999,99 ₽</option>
+                            <option value="1599.50">Смартфон - 1 599,50 ₽</option>
+                            <option value="899.99">Планшет - 899,99 ₽</option>
+                            <option value="249.99">Наушники - 249,99 ₽</option>
+                            <option value="179.50">Клавиатура - 179,50 ₽</option>
+                        </select>
+                        <div class="form-text">
+                            Цены указаны за одну единицу товара
+                        </div>
+                    </div>
+<!-- Ввод количества -->
+                    <div class="mb-4">
+                        <label for="quantityInput" class="form-label fw-bold">
+                            <i class="bi bi-123 me-1"></i>Количество товара
+                        </label>
+                        <input type="text" 
+                               class="form-control form-control-lg" 
+                               id="quantityInput" 
+                               placeholder="Введите количество"
+                               required>
+                        <div class="error-message" id="quantityError">
+                            Пожалуйста, введите корректное количество (только цифры от 1 до 999)
+                        </div>
+                        <div class="form-text">
+                            Введите количество товара от 1 до 999
+                        </div>
+                    </div>
+
+                    <!-- Кнопка расчета -->
+                    <div class="d-grid gap-2 mb-4">
+                        <button type="submit" class="btn btn-calculate btn-lg py-3">
+                            <i class="bi bi-calculator-fill me-2"></i>Рассчитать стоимость
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Результат расчета -->
+                <div class="result-container text-center" id="resultContainer" style="display: none;">
+                    <h3 class="h5 mb-3">
+                        <i class="bi bi-receipt me-2"></i>Стоимость заказа
+                    </h3>
+                    <div class="result-value" id="resultValue">0 ₽</div>
+                    <div class="mt-3 text-muted">
+                        <small id="calculationDetails">Выбран товар: - в количестве: 0 шт.</small>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-outline-secondary" id="resetButton">
+                            <i class="bi bi-arrow-clockwise me-1"></i>Новый расчет
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-footer text-muted text-center py-3">
+                <small>Разработка пользовательского Web-интерфейса</small>
+                <br>
+                <small>Асанов Богдан</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Внешний JavaScript файл -->
+    <script src="calculator.js" defer></script>
+</body>
+</html>
