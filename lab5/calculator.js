@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function displayResult(total, productName, price, quantity) {
         resultValue.textContent = formatCurrency(total);
         calculationDetails.textContent = 
-            'Выбран товар: ${productName} (${formatCurrency(price)} за шт.) в количестве: ${quantity} шт.';
+            'Выбран товар: ' + productName + ' (' + formatCurrency(price) + ' за шт.) в количестве: ' + quantity + ' шт.';
         resultContainer.style.display = 'block';
         
         // Плавная прокрутка к результату
