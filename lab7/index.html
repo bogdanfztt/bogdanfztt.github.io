@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задание 7 - Галерея изображений</title>
+    
+    <!-- Slick Slider CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        
+        /* Стили для слайдера */
+        .slider-container {
+            position: relative;
+            margin: 20px auto;
+            padding: 0 50px;
+        }
+        
+        .gallery-slider {
+            margin: 0 auto;
+        }
+        
+        .slide {
+            padding: 10px;
+        }
+        
+        .slide-image {
+            width: 100%;
+            height: 250px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #e0e0e0;
+        }
+        
+        /* Стрелки навигации */
+        .slick-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: #3498db;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .slick-arrow:hover {
+            background: #2980b9;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .slick-prev {
+            left: 0;
+        }
+        
+        .slick-next {
+            right: 0;
+        }
+        
+        /* Пейджер */
+        .pager {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .page-info {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .page-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #bdc3c7;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .dot:hover {
+            background: #95a5a6;
+        }
+        
+        .dot.active {
+            background: #3498db;
+            transform: scale(1.3);
+        }
+        
+        .image-counter {
+            margin-top: 10px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .slider-container {
+                padding: 0 40px;
+            }
+            
+            .slide-image {
+                height: 200px;
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Галерея изображений</h1>
+        <p class="subtitle">Задание 7 - Горизонтальный слайдер с 8 изображениями</p>
+        
+        <!-- Слайдер -->
+        <div class="slider-container">
+            <div class="gallery-slider" id="gallerySlider">
+                <!-- Изображение 1 - Синий градиент -->
+                <div class="slide">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxkZWZzPgogICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZzEiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMzQ5OGRiIi8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzJlY2M3MSIvPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNnMSkiLz4KICAgIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIwLjNlbSI+SW1hZ2UgMTwvdGV4dD4KPC9zdmc+" 
+                         alt="Изображение 1" class="slide-image">
+                </div>
+                
+                <!-- Изображение 2 - Зеленый градиент -->
+                <div class="slide">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxkZWZzPgogICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZzIiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMmU2YzcxIi8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzFhYmM5YyIvPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNnMikiLz4KICAgIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIwLjNlbSI+SW1hZ2UgMjwvdGV4dD4KPC9zdmc+" 
+                         alt="Изображение 2" class="slide-image">
+                </div>
+                
+                <!-- Изображение 3 - Красный градиент -->
+                <div class="slide">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxkZWZzPgogICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZzMiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZTc0YzNjIi8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2QzNTAwMCIvPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNnMykiLz4KICAgIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIwLjNlbSI+SW1hZ2UgMzwvdGV4dD4KPC9zdmc+" 
+                         alt="Изображение 3" class="slide-image">
+                </div>
+                
+                <!-- Изображение 4 - Оранжевый градиент -->
+                <div class="slide">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxkZWZzPgogICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZzQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjM5YzEyIi8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U2N2UwYyIvPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNnNCkiLz4KICAgIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIwLjNlbSI+SW1hZ2UgNDwvdGV4dD4KPC9zdmc+" 
+                         alt="Изображение 4" class="slide-image">
+                </div>
+                
+                <!-- Изображение 5 - Фиолетовый градиент -->
+                <div class="slide">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxkZWZzPgogICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZzUiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjOWI1OWI2Ii8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzhlNDRiZiIvPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNnNSkiLz4KICAgIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIwLjNlbSI+SW1hZ2UgNTwvdGV4dD4KPC9zdmc+" 
+                         alt="Изображение 5" class="slide-image">
+                </div>
+                
+                <!-- Изображение 6 - Бирюзовый градиент -->
+                <div class="slide">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxkZWZzPgogICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZzYiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMWFiYzljIi8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzE2YThhMiIvPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNnNikiLz4KICAgIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIwLjNlbSI+SW1hZ2UgNjwvdGV4dD4KPC9zdmc+" 
+                         alt="Изображение 6" class="slide-image">
+                </div>
+                
+                <!-- Изображение 7 - Темно-синий градиент -->
+                <div class="slide">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxkZWZzPgogICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZzciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMzQ0OTVlIi8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzJjM2U1MCIvPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNnNykiLz4KICAgIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIwLjNlbSI+SW1hZ2UgNzwvdGV4dD4KPC9zdmc+" 
+                         alt="Изображение 7" class="slide-image">
+                </div>
+                
+                <!-- Изображение 8 - Коричневый градиент -->
+                <div class="slide">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxkZWZzPgogICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZzgiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZDk4NTNmIi8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2JkNzMzZCIvPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNnOCkiLz4KICAgIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIwLjNlbSI+SW1hZ2UgODwvdGV4dD4KPC9zdmc+" 
+                         alt="Изображение 8" class="slide-image">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Пейджер -->
+        <div class="pager">
+            <div class="page-info">
+                <span id="currentPage">Страница 1</span>
+                <span id="totalPages"> из 3</span>
+            </div>
+            
+            <div class="page-dots" id="pageDots">
+                <!-- Точки добавляются через JavaScript -->
+            </div>
+            
+            <div class="image-counter" id="imageCounter">
+                Изображение 1 из 8
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>2025 Разработка пользовательского Web-интерфейса</p>
+            <p>Галерея изображений - 8 фото, адаптивный слайдер</p>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Slick Slider -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    
+    <!-- JavaScript код -->
+    <script>
+        $(document).ready(function() {
+            console.log('Инициализация слайдера...');
+            
+            // Инициализация слайдера
+            $('#gallerySlider').slick({
+                slidesToShow: 3,    // На ПК показываем 3 изображения
+                slidesToScroll: 3,  // Прокручиваем по 3
+                arrows: true,       // Показываем стрелки
+                dots: false,        // Скрываем стандартные точки
+                infinite: true,     // Бесконечная прокрутка
+                speed: 300,         // Скорость анимации
+                prevArrow: '<button type="button" class="slick-prev">←</button>',
+                nextArrow: '<button type="button" class="slick-next">→</button>',
+                responsive: [
+                    {
+                        breakpoint: 769, // Для смартфонов (меньше 769px)
+                        settings: {
+                            slidesToShow: 1,    // На смартфонах 1 изображение
+                            slidesToScroll: 1   // Прокручиваем по 1
+                        }
+                    }
+                ]
+            });
+            
+            // Элементы пейджера
+            const currentPageElement = document.getElementById('currentPage');
+            const totalPagesElement = document.getElementById('totalPages');
+            const pageDotsElement = document.getElementById('pageDots');
+            const imageCounterElement = document.getElementById('imageCounter');
+            
+            // Функция для получения количества видимых слайдов
+            function getSlidesToShow() {
+                // Если ширина экрана меньше 769px - это смартфон (1 слайд)
+                // Иначе - ПК (3 слайда)
+                return window.innerWidth < 769 ? 1 : 3;
+            }
+            
+            // Рассчитываем количество страниц
+            function calculateTotalPages() {
+                const slidesCount = 8; // Всего 8 изображений
+                const slidesToShow = getSlidesToShow();
+                const totalPages = Math.ceil(slidesCount / slidesToShow);
+                console.log('Всего страниц:', totalPages, '(слайдов на странице:', slidesToShow, ')');
+                return totalPages;
+            }
+            
+            // Обновляем пейджер
+            function updatePager() {
+                const slider = $('#gallerySlider');
+                const currentSlide = slider.slick('slickCurrentSlide');
+                const slidesToShow = getSlidesToShow();
+                const totalPages = calculateTotalPages();
+                const currentPage = Math.floor(currentSlide / slidesToShow) + 1;
+                
+                console.log('Текущий слайд:', currentSlide, 'Текущая страница:', currentPage);
+                
+                // Обновляем текст
+                currentPageElement.textContent = `Страница ${currentPage}`;
+                totalPagesElement.textContent = ` из ${totalPages}`;
+                imageCounterElement.textContent = `Изображение ${currentSlide + 1} из 8`;
+                
+                // Обновляем точки
+                updatePageDots(currentPage, totalPages);
+            }
+            
+            // Обновляем точки пейджера
+            function updatePageDots(currentPage, totalPages) {
+                pageDotsElement.innerHTML = '';
+                
+                for (let i = 1; i <= totalPages; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = `dot ${i === currentPage ? 'active' : ''}`;
+                    dot.title = `Перейти на страницу ${i}`;
+                    
+                    // При клике на точку переходим на нужную страницу
+                    dot.addEventListener('click', function() {
+                        console.log('Клик на страницу:', i);
+                        goToPage(i);
+                    });
+                    
+                    pageDotsElement.appendChild(dot);
+                }
+            }
+            
+            // Переход на страницу
+            function goToPage(pageNumber) {
+                const slider = $('#gallerySlider');
+                const slidesToShow = getSlidesToShow();
+                const targetSlide = (pageNumber - 1) * slidesToShow;
+                
+                console.log('Переход на страницу', pageNumber, 'Слайд:', targetSlide);
+                slider.slick('slickGoTo', targetSlide);
+            }
+            
+            // Событие изменения слайда
+            $('#gallerySlider').on('afterChange', function(event, slick, currentSlide) {
+                console.log('Слайд изменен на:', currentSlide);
+                updatePager();
+            });
+            
+            // Обработчик изменения размера окна
+            let resizeTimer;
+            $(window).on('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    console.log('Размер окна изменен');
+                    updatePager();
+                }, 250);
+            });
+            
+            // Инициализация пейджера при загрузке
+            updatePager();
+            
+            console.log('Слайдер успешно инициализирован!');
+        });
+    </script>
+</body>
+</html>
